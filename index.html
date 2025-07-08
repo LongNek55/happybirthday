@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chúc mừng sinh nhật Mẹ</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+      position: relative;
+    }
+
+    .star {
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      opacity: 0.5;
+      animation: twinkle 1.5s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+    }
+
+    .start-button {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 15px 30px;
+      background-color: #FF69B4;
+      color: white;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 10px;
+      z-index: 100;
+      box-shadow: 0 0 15px #FF69B4;
+    }
+
+    .start-button:hover {
+      background-color: #FF1493;
+    }
+
+    .status-bar {
+      position: absolute;
+      top: 10px;
+      left: 15px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: white;
+      z-index: 100;
+    }
+
+    .status-bar .icon {
+      margin-right: 12px;
+    }
+
+    .time {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .date {
+      font-size: 14px;
+      margin-left: 6px;
+    }
+
+    .fixed-message {
+      position: fixed;
+      top: 10px;
+      right: 20px;
+      font-size: 18px;
+      color: #FF69B4;
+      font-weight: bold;
+      text-shadow: 0 0 10px #FF69B4, 0 0 20px #FF69B4;
+      z-index: 50;
+    }
+
+    .side-image {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%) scale(1);
+      width: 180px;
+      height: auto;
+      border-radius: 15px;
+      animation: swing 4s ease-in-out infinite;
+      z-index: 8;
+      opacity: 0;
+      transition: opacity 2s ease-in-out, transform 2s ease-in-out;
+    }
+
+    .side-left {
+      left: 3vw;
+    }
+
+    .side-right {
+      right: 3vw;
+    }
+
+    .side-image.visible {
+      opacity: 1;
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    .fall-wrapper {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: fallDown 8s linear forwards;
+      z-index: 10;
+    }
+
+    @keyframes fallDown {
+      0% { top: -400px; opacity: 0; filter: blur(5px); }
+      10% { opacity: 1; filter: blur(0); }
+      70% { opacity: 1; filter: blur(0); }
+      100% { top: 110vh; opacity: 0; filter: blur(5px); }
+    }
+
+    .swing-container {
+      animation: swing 3s ease-in-out infinite;
+      text-align: center;
+    }
+
+    @keyframes swing {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(2deg); }
+      75% { transform: rotate(-2deg); }
+    }
+
+    .swing-container img {
+      width: 350px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+      display: block;
+      margin: 0 auto;
+    }
+
+    .swing-container .falling-text {
+      font-size: 30px;
+      font-weight: bold;
+      color: #FF69B4;
+      text-shadow: 0 0 10px #FF69B4, 0 0 20px #FF69B4;
+      margin-top: 15px;
+    }
+
+    .copyright {
+      position: fixed;
+      bottom: 10px;
+      left: 20px;
+      font-size: 14px;
+      color: #FF69B4;
+      font-weight: bold;
+      text-shadow: 0 0 5px #FF69B4;
+      z-index: 50;
+    }
+
+    .song-info {
+      position: fixed;
+      bottom: 10px;
+      right: 20px;
+      font-size: 14px;
+      color: #FF69B4;
+      font-weight: bold;
+      text-shadow: 0 0 5px #FF69B4;
+      z-index: 50;
+      text-align: right;
+    }
+
+    @media (max-width: 768px) {
+      .swing-container img { width: 250px; }
+      .swing-container .falling-text { font-size: 24px; }
+      .start-button { font-size: 16px; padding: 10px 20px; }
+      .status-bar { font-size: 14px; }
+      .fixed-message { font-size: 16px; }
+      .time { font-size: 16px; }
+      .song-info { font-size: 12px; }
+      .side-image { width: 110px; }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="song" src="nhac.mp3" loop></audio>
+
+  <button class="start-button" id="startBtn">✨ Ấn để bắt đầu</button>
+
+  <div class="status-bar">
+    <div class="icon">📶</div>
+    <div class="icon">🔋 85%</div>
+    <div class="time" id="current-time">00:00</div>
+    <div class="date" id="current-date">Thứ 2, 01/01/2025</div>
+  </div>
+
+  <div class="fixed-message">Con nhớ mẹ lắm 😢</div>
+  <div class="copyright">Bản quyền © Phạm Hoàng Long</div>
+  <div class="song-info">
+    Bài hát: Nhật Ký Của Mẹ<br>
+    Ca sỹ: Hiền Thục<br>
+    Sáng tác: Nguyễn Văn Chung
+  </div>
+
+  <img src="anh5.jpg" class="side-image side-left" id="leftImg" alt="Ảnh bên trái" />
+  <img src="anh6.jpg" class="side-image side-right" id="rightImg" alt="Ảnh bên phải" />
+
+  <div class="star-field"></div>
+  <div id="falling-container"></div>
+
+  <script>
+    function createStars() {
+      const field = document.querySelector(".star-field");
+      for (let i = 0; i < 200; i++) {
+        const star = document.createElement("div");
+        star.className = "star";
+        const size = Math.random() * 3 + 1;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.top = `${Math.random() * 100}vh`;
+        star.style.left = `${Math.random() * 100}vw`;
+        star.style.animationDuration = `${Math.random() + 1}s`;
+        field.appendChild(star);
+      }
+    }
+
+    const texts = [
+      "Chúc mừng sinh nhật Mẹ yêu ❤️",
+      "Mẹ luôn là người tuyệt vời nhất",
+      "Cảm ơn mẹ vì tất cả",
+      "Con yêu mẹ nhiều lắm 💕"
+    ];
+    const photos = [
+      "anh1.jpg",
+      "anh2.jpg",
+      "anh3.jpg",
+      "anh4.jpg"
+    ];
+
+    function showFallingGroup(index) {
+      const container = document.getElementById("falling-container");
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "fall-wrapper";
+
+      const swing = document.createElement("div");
+      swing.className = "swing-container";
+
+      const img = document.createElement("img");
+      img.src = photos[index % photos.length];
+
+      const text = document.createElement("div");
+      text.className = "falling-text";
+      text.innerText = texts[index % texts.length];
+
+      swing.appendChild(img);
+      swing.appendChild(text);
+      wrapper.appendChild(swing);
+      container.appendChild(wrapper);
+
+      setTimeout(() => wrapper.remove(), 8000);
+    }
+
+    function showSequentialFallingGroups() {
+      for (let i = 0; i < texts.length; i++) {
+        setTimeout(() => {
+          showFallingGroup(i);
+        }, i * 8000);
+      }
+      setTimeout(showSequentialFallingGroups, texts.length * 8000);
+    }
+
+    function updateTime() {
+      const timeEl = document.getElementById("current-time");
+      const dateEl = document.getElementById("current-date");
+      const now = new Date();
+      const h = now.getHours().toString().padStart(2, '0');
+      const m = now.getMinutes().toString().padStart(2, '0');
+      const dayNames = ["Chủ Nhật", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+      const day = dayNames[now.getDay()];
+      const d = now.getDate();
+      const mo = now.getMonth() + 1;
+      const y = now.getFullYear();
+      timeEl.textContent = `${h}:${m}`;
+      dateEl.textContent = `${day}, ${d}/${mo}/${y}`;
+    }
+
+    createStars();
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    document.getElementById('startBtn').addEventListener('click', function () {
+      this.style.display = 'none';
+      document.getElementById('song').play();
+      document.getElementById('leftImg').classList.add('visible');
+      document.getElementById('rightImg').classList.add('visible');
+      showSequentialFallingGroups();
+    });
+  </script>
+</body>
+</html>
